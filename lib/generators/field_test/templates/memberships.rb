@@ -4,6 +4,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version
       t.string :participant
       t.string :experiment
       t.string :variant
+      t.float :value
       t.timestamp :created_at
       t.boolean :converted, default: false
     end

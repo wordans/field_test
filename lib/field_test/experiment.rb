@@ -102,10 +102,7 @@ module FieldTest
 
       if use_events?
         data = {}
-        sql =
-          relation.joins("LEFT JOIN field_test_events ON field_test_events.field_test_membership_id = field_test_memberships.id")
-            .select("variant, COUNT(DISTINCT participant) AS participated, COUNT(DISTINCT field_test_membership_id) AS converted")
-            .where(field_test_events: {name: goal})
+        sql = relation.joins("LEFT JOIN field_test_events ON field_test_events.field_test_membership_id = field_test_memberships.id").select("variant, COUNT(DISTINCT participant) AS participated, COUNT(DISTINCT field_test_membership_id) AS converted").where(field_test_events: {name: goal})
 
         FieldTest::Membership.connection.select_all(sql).each do |row|
           data[[row["variant"], true]] = row["converted"].to_i
@@ -113,17 +110,28 @@ module FieldTest
         end
       else
         data = relation.group(:converted).count
+        value_data = relation.group(:converted).average(:value)
       end
 
       results = {}
       variants.each do |variant|
         converted = data[[variant, true]].to_i
         participated = converted + data[[variant, false]].to_i
+
+        participated > 0 ? conversion_rate = converted.to_f / participated : conversion_rate = nil
+
+        (converted > 0 && !value_data[[variant, true]].nil?) : average_conversion_value = value_data[[variant, true]].to_i / converted :  average_conversion_value = nil
+
+        (participated > 0 && average_conversion_value > 0) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil;
+
         results[variant] = {
           participated: participated,
           converted: converted,
-          conversion_rate: participated > 0 ? converted.to_f / participated : nil
+          conversion_rate: conversion_rate,
+          average_conversion_value: average_conversion_value,
+          conversion_value: conversion_value
         }
+
       end
       case variants.size
       when 1, 2, 3
