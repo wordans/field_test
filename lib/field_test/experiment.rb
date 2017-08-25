@@ -121,7 +121,7 @@ module FieldTest
 
         participated > 0 ? conversion_rate = converted.to_f / participated : conversion_rate = nil
 
-        (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f.round : average_conversion_value = nil
+        (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
 
         (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
 
