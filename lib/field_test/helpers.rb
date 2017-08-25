@@ -75,9 +75,11 @@ module FieldTest
 
         #message does not work here
         # mailers
-        to = try(:message).try(:to).try(:first)
-        if to
-          participants << to
+        if respond_to?(:message)
+          to = try(:message).try(:to).try(:first)
+          if to
+            participants << to
+          end
         end
       end
 
