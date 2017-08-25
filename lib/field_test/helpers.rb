@@ -49,7 +49,7 @@ module FieldTest
       if options[:participant]
         participants << options[:participant]
       else
-        if respond_to?(:current_member, true) && current_member.user
+        if respond_to?(:current_member, true) && !current_member.try(:user).blank?
           participants << current_member.user
         end
 
