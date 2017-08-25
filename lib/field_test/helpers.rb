@@ -28,7 +28,7 @@ module FieldTest
 
       participants = field_test_participants(options)
 
-      exp.convert(participants, goal: options[:goal])
+      exp.convert(participants, goal: options[:goal], value: options[:value])
     end
 
     def field_test_experiments(options = {})
