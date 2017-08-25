@@ -55,7 +55,7 @@ module FieldTest
       membership.try(:variant) || variants.first
     end
 
-    def convert(participants, goal: nil)
+    def convert(participants, goal: nil, value: nil)
       goal ||= goals.first
 
       participants = FieldTest::Participant.standardize(participants)
@@ -65,6 +65,7 @@ module FieldTest
       if membership
         if membership.respond_to?(:converted)
           membership.converted = true
+          membership.value = value unless value.blank?
           membership.save! if membership.changed?
         end
 
