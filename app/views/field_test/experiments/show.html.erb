@@ -17,6 +17,7 @@
       <th style="width: 20%;">Variant</th>
       <th style="width: 20%;">Converted</th>
       <th style="width: 20%;">Started</th>
+      <th style="width: 20%;">Conversion Value</th>
     </tr>
   </thead>
   <tbody>
@@ -48,6 +49,10 @@
           <% else %>
             <%= membership.created_at.to_formatted_s(:short) %>
           <% end %>
+        </td>
+        <td>
+          <% value = membership.value %>
+          <%= value.nil? ? "-" : value %>
         </td>
       </tr>
     <% end %>
