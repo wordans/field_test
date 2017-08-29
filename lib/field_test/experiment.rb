@@ -214,6 +214,9 @@ module FieldTest
 
       case variants.size
       when 1, 2, 3
+
+        binding.pry
+
         total = 0.0
 
         (variants.size - 1).times do |i|
