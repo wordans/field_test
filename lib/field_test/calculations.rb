@@ -56,9 +56,6 @@ module FieldTest
     end
 
 
-
-
-
     def self.level_prob_b_beats_a(alpha_a, beta_a, alpha_b, beta_b)
       total = 0.0
 
@@ -86,10 +83,10 @@ module FieldTest
       log_ba_plus_bb_plus_bc = Math.log(beta_a + beta_b + beta_c)
       lgamma_aa = Math.log(Math.gamma(alpha_a))
 
-      0.upto(alpha_a - 1) do |i|
+      0.upto(alpha_b - 1) do |i|
         alpha_a_plus_i = alpha_a + i
         lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
-        0.upto(alpha_a - 1) do |j|
+        0.upto(alpha_c - 1) do |j|
           total += Math.exp(alpha_a_time_log_bb + j * log_bc + (j + alpha_a_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_a_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_aa)
         end
       end
