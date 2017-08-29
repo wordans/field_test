@@ -215,8 +215,6 @@ module FieldTest
       case variants.size
       when 1, 2, 3
 
-        binding.pry
-
         total = 0.0
 
         (variants.size - 1).times do |i|
@@ -224,7 +222,7 @@ module FieldTest
           b = level_results.values[(i + 1) % variants.size]
           a = level_results.values[(i + 2) % variants.size]
 
-          experiment_weights = weights.map{|weight| weight.to_f/weights[(i + 2) % variants.size]}
+          experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
 
           alpha_a = a[:participated]
           beta_a =  experiment_weights[(i + 2) % variants.size]
