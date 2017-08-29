@@ -64,10 +64,11 @@ module FieldTest
       log_ba = Math.log(beta_a)
       log_bb = Math.log(beta_b)
       log_ba_plus_bb = Math.log(beta_a + beta_b)
-      alpha_b_time_log_bb = alpha_b * log_bb
+      alpha_a_time_log_ba = alpha_a * log_ba
 
-      0.upto(alpha_a - 1) do |i|
-        total += Math.exp(i * log_ba + alpha_b_time_log_bb - (i + alpha_b) * log_ba_plus_bb - Math.log(i + alpha_b) - Math.logbeta(i + 1, alpha_b))
+      0.upto(alpha_b - 1) do |i|
+        # Possible problem here
+        total += Math.exp(i * log_bb + alpha_a_time_log_ba - (i + alpha_a) * log_ba_plus_bb - Math.log(i + alpha_a) - Math.logbeta(i + 1, alpha_a))
       end
 
       total
@@ -79,16 +80,18 @@ module FieldTest
       # for performance
       log_ba = Math.log(beta_a)
       log_bc = Math.log(beta_c)
-      alpha_a_time_log_ba = alpha_a * log_ba
+      alpha_c_time_log_bc = alpha_c * log_bc
       log_ba_plus_bb_plus_bc = Math.log(beta_a + beta_b + beta_c)
-      lgamma_aa = Math.log(Math.gamma(alpha_a))
+      lgamma_ac = Math.log(Math.gamma(alpha_c))
+
+      # Possible problem here, b and a should be the loops - not c
 
       0.upto(alpha_b - 1) do |i|
-        alpha_a_plus_i = alpha_a + i
+        alpha_c_plus_i = alpha_c + i
         lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
         i_times_log_bb = i * Math.log(beta_b)
-        0.upto(alpha_c - 1) do |j|
-          total += Math.exp(alpha_a_time_log_ba + i_times_log_bb + j * log_bc - (j + alpha_a_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_a_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_aa)
+        0.upto(alpha_a - 1) do |j|
+          total += Math.exp(alpha_c_time_log_bc + i_times_log_bb + j * log_ba - (j + alpha_c_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_c_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_ac)
         end
       end
 
