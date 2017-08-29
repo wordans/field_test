@@ -61,6 +61,7 @@ module FieldTest
 
     def self.level_prob_b_beats_a(alpha_a, beta_a, alpha_b, beta_b)
       total = 0.0
+      binding.pry
 
       # for performance
 
