@@ -9,8 +9,8 @@
   <% end %>
 
   <% experiment.goals.each do |goal| %>
-    <% level_results = experiment.level_results(goal: goal) %>
-    <% results = experiment.results(goal: goal) %>
+    <% experiment.level_results(goal: goal) %>
+    <% level_results = experiment.results(goal: goal) %>
     <% if experiment.multiple_goals? %>
       <h3><%= goal.titleize %></h3>
     <% end %>
