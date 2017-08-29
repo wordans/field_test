@@ -172,6 +172,7 @@ module FieldTest
     end
 
     def level_results(goal: nil)
+      binding.pry
       goal ||= goals.first
 
       relation = memberships.group(:variant)

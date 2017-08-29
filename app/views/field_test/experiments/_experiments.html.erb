@@ -60,12 +60,14 @@
               <% end %>
             </td>
             <td>
-              <% if level_result[:prob_winning] %>
+              <% if !level_result[:prob_winning].blank? %>
                 <% if level_result[:prob_winning] < 0.01 %>
                   &lt; 1%
                 <% else %>
                   <%= (100.0 * level_result[:prob_winning]).round %>%
                 <% end %>
+              <% else %>
+                  -
               <% end %>
             </td>
           </tr>
