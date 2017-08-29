@@ -59,6 +59,7 @@ module FieldTest
     def self.level_prob_b_beats_a(alpha_a, beta_a, alpha_b, beta_b)
       total = 0.0
 
+      binding.pry
       # for performance
 
       log_ba = Math.log(beta_a)
@@ -67,7 +68,7 @@ module FieldTest
       alpha_a_time_log_bb = alpha_a * log_bb
 
       0.upto(alpha_b - 1) do |i|
-        total += Math.exp(i * log_ba + alpha_a_time_log_bb - (i + alpha_b) * log_ba_plus_bb - Math.log(i + alpha_b) -Math.logbeta(i + 1, alpha_b))
+        total += Math.exp(i * log_ba + alpha_a_time_log_bb - (i + alpha_b) * log_ba_plus_bb - Math.log(i + alpha_b) - Math.logbeta(i + 1, alpha_b))
       end
 
       total
@@ -75,6 +76,7 @@ module FieldTest
 
     def self.level_prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
       total = 0.0
+      binding.pry
 
       # for performance
       log_ba = Math.log(beta_a)
