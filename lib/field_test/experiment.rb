@@ -244,7 +244,7 @@ module FieldTest
           prob_winning =
             if (alpha_a == 0 || alpha_b == 0 || alpha_c == 0)
               1 / variants.size.to_f
-            if variants.size == 2
+            elsif variants.size == 2
               cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
                 Calculations.level_prob_b_beats_a(alpha_b, beta_b, alpha_c, beta_c)
               end
