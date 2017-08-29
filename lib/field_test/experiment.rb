@@ -222,14 +222,21 @@ module FieldTest
           b = level_results.values[(i + 1) % variants.size]
           a = level_results.values[(i + 2) % variants.size]
 
-          experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
+          a_weight = weights[(i + 2) % variants.size]/weights[i]
+          b_weight = weights[(i + 1) % variants.size]/weights[i]
+          c_weight = weights[i]/weights[i]
+
+          # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
+          beta_a =  a_weight
+          beta_b =  b_weight
+          beta_c = c_weight
 
           alpha_a = a[:participated]
-          beta_a =  experiment_weights[(i + 2) % variants.size]
+          # beta_a =  experiment_weights[(i + 2) % variants.size]
           alpha_b = b[:participated]
-          beta_b =  experiment_weights[(i + 1) % variants.size]
+          # beta_b =  experiment_weights[(i + 1) % variants.size]
           alpha_c = c[:participated]
-          beta_c = experiment_weights[i]
+          # beta_c = experiment_weights[i]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
