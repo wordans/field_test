@@ -241,13 +241,13 @@ module FieldTest
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
             if variants.size == 2
-              cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
+              # cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
                 Calculations.level_prob_b_beats_a(alpha_b, beta_b, alpha_c, beta_c)
-              end
+              # end
             else
-              cache_fetch ["field_test", "level_prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
+              # cache_fetch ["field_test", "level_prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
                 Calculations.level_prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
-              end
+              # end
             end
 
           level_results[variants[i]][:prob_winning] = prob_winning
