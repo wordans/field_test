@@ -172,7 +172,6 @@ module FieldTest
     end
 
     def level_results(goal: nil)
-      binding.pry
       goal ||= goals.first
 
       relation = memberships.group(:variant)
@@ -222,14 +221,13 @@ module FieldTest
           b = level_results.values[(i + 1) % variants.size]
           a = level_results.values[(i + 2) % variants.size]
 
-          experiment_weights = weights.map{|weight| weight/weights[i]}
-          binding.pry
+          experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
           alpha_a = a[:converted] + a[:participated]
-          beta_a =  experiment_weights[0]
+          beta_a =  experiment_weights[i]
           alpha_b = b[:converted] + b[:participated]
-          beta_b =  experiment_weights[1]
+          beta_b =  experiment_weights[(i + 1) % variants.size]
           alpha_c = c[:converted] + c[:participated]
-          beta_c = experiment_weights[2]
+          beta_c = experiment_weights[(i + 2) % variants.size]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
