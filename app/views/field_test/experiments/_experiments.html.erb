@@ -9,7 +9,7 @@
   <% end %>
 
   <% experiment.goals.each do |goal| %>
-    <% results = experiment.results(goal: goal) %>
+    <% level_results = experiment.level_results(goal: goal) %>
 
     <% if experiment.multiple_goals? %>
       <h3><%= goal.titleize %></h3>
@@ -28,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <% results.each do |variant, result| %>
+        <% level_results.each do |variant, level_result| %>
           <tr>
             <td>
               <%= variant %>
@@ -36,35 +36,35 @@
                 <span class="check">✓</span>
               <% end %>
             </td>
-            <td><%= result[:participated] %></td>
-            <td><%= result[:converted] %></td>
+            <td><%= level_result[:participated] %></td>
+            <td><%= level_result[:converted] %></td>
             <td>
-              <% if result[:conversion_rate] %>
-                <%= (100.0 * result[:conversion_rate]).round %>%
+              <% if level_result[:conversion_rate] %>
+                <%= (100.0 * level_result[:conversion_rate]).round %>%
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if result[:average_conversion_value] %>
-                <%= result[:average_conversion_value].round %>
+              <% if level_result[:average_conversion_value] %>
+                <%= level_result[:average_conversion_value].round %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if result[:conversion_value] %>
-                <%= result[:conversion_value].round %>
+              <% if level_result[:conversion_value] %>
+                <%= level_result[:conversion_value].round %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if result[:prob_winning] %>
-                <% if result[:prob_winning] < 0.01 %>
+              <% if level_result[:prob_winning] %>
+                <% if level_result[:prob_winning] < 0.01 %>
                   &lt; 1%
                 <% else %>
-                  <%= (100.0 * result[:prob_winning]).round %>%
+                  <%= (100.0 * level_result[:prob_winning]).round %>%
                 <% end %>
               <% end %>
             </td>

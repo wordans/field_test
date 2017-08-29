@@ -191,7 +191,7 @@ module FieldTest
         value_data = relation.group(:converted).average(:value)
       end
 
-      results = {}
+      level_results = {}
       variants.each do |variant|
         converted = data[[variant, true]].to_i
         participated = converted + data[[variant, false]].to_i
@@ -202,7 +202,7 @@ module FieldTest
 
         (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
 
-        results[variant] = {
+        level_results[variant] = {
           participated: participated,
           converted: converted,
           conversion_rate: conversion_rate,
@@ -217,9 +217,9 @@ module FieldTest
         total = 0.0
 
         (variants.size - 1).times do |i|
-          c = results.values[i]
-          b = results.values[(i + 1) % variants.size]
-          a = results.values[(i + 2) % variants.size]
+          c = level_results.values[i]
+          b = level_results.values[(i + 1) % variants.size]
+          a = level_results.values[(i + 2) % variants.size]
 
           experiment_weights = weights.map{|weight| weight/weights[0]}
 
@@ -242,13 +242,13 @@ module FieldTest
               end
             end
 
-          results[variants[i]][:prob_winning] = prob_winning
+          level_results[variants[i]][:prob_winning] = prob_winning
           total += prob_winning
         end
 
-        results[variants.last][:prob_winning] = 1 - total
+        level_results[variants.last][:prob_winning] = 1 - total
       end
-      results
+      level_results
     end
 
     def active?
