@@ -222,8 +222,8 @@ module FieldTest
           b = level_results.values[(i + 1) % variants.size]
           a = level_results.values[(i + 2) % variants.size]
 
-          experiment_weights = weights.map{|weight| weight/weights[0]}
-
+          experiment_weights = weights.map{|weight| weight/weights[i]}
+          binding.pry
           alpha_a = a[:converted] + a[:participated]
           beta_a =  experiment_weights[0]
           alpha_b = b[:converted] + b[:participated]
