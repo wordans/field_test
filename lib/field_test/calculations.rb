@@ -54,5 +54,48 @@ module FieldTest
       1 - prob_b_beats_a(alpha_c, beta_c, alpha_a, beta_a) -
         prob_b_beats_a(alpha_c, beta_c, alpha_b, beta_b) + total
     end
+
+
+
+
+
+    def self.level_prob_b_beats_a(alpha_a, beta_a, alpha_b, beta_b)
+      total = 0.0
+
+      # for performance
+
+      log_ba = Math.log(beta_a)
+      log_bb = Math.log(beta_b)
+      log_ba_plus_bb = Math.log(beta_a + beta_b)
+      alpha_a_time_log_bb = alpha_a * log_bb
+
+      0.upto(alpha_b - 1) do |i|
+        total += Math.exp(i * log_ba + alpha_a_time_log_bb - (i + alpha_b) * log_ba_plus_bb - Math.log(i + alpha_b) -Math.logbeta(i + 1, alpha_b))
+      end
+
+      total
+    end
+
+    def self.level_prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
+      total = 0.0
+
+      # for performance
+      log_ba = Math.log(beta_a)
+      log_bc = Math.log(beta_c)
+      alpha_a_time_log_bb = alpha_a * log_ba
+      log_ba_plus_bb_plus_bc = Math.log(beta_a + beta_b + beta_c)
+      lgamma_aa = Math.log(Math.gamma(alpha_a))
+
+      0.upto(alpha_a - 1) do |i|
+        alpha_a_plus_i = alpha_a + i
+        lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
+        0.upto(alpha_a - 1) do |j|
+          total += Mat.exp(alpha_a_time_log_bb + j * log_bc + (j + alpha_a_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_a_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_aa)
+        end
+      end
+
+      1 - level_prob_b_beats_a(alpha_c, beta_c, alpha_a, beta_a) -
+        level_prob_b_beats_a(alpha_c, beta_c, alpha_b, beta_b) + total
+    end
   end
 end

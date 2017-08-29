@@ -171,6 +171,86 @@ module FieldTest
       results
     end
 
+    def level_results(goal: nil)
+      goal ||= goals.first
+
+      relation = memberships.group(:variant)
+      relation = relation.where("created_at >= ?", started_at) if started_at
+      relation = relation.where("created_at <= ?", ended_at) if ended_at
+
+      if use_events?
+        data = {}
+        sql = relation.joins("LEFT JOIN field_test_events ON field_test_events.field_test_membership_id = field_test_memberships.id").select("variant, COUNT(DISTINCT participant) AS participated, COUNT(DISTINCT field_test_membership_id) AS converted").where(field_test_events: {name: goal})
+
+        FieldTest::Membership.connection.select_all(sql).each do |row|
+          data[[row["variant"], true]] = row["converted"].to_i
+          data[[row["variant"], false]] = row["participated"].to_i - row["converted"].to_i
+        end
+      else
+        data = relation.group(:converted).count
+        value_data = relation.group(:converted).average(:value)
+      end
+
+      results = {}
+      variants.each do |variant|
+        converted = data[[variant, true]].to_i
+        participated = converted + data[[variant, false]].to_i
+
+        participated > 0 ? conversion_rate = converted.to_f / participated : conversion_rate = nil
+
+        (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
+
+        (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
+
+        results[variant] = {
+          participated: participated,
+          converted: converted,
+          conversion_rate: conversion_rate,
+          average_conversion_value: average_conversion_value,
+          conversion_value: conversion_value
+        }
+
+      end
+
+      case variants.size
+      when 1, 2, 3
+        total = 0.0
+
+        (variants.size - 1).times do |i|
+          c = results.values[i]
+          b = results.values[(i + 1) % variants.size]
+          a = results.values[(i + 2) % variants.size]
+
+          experiment_weights = weights.map{|weight| weight/weights[0]}
+
+          alpha_a = a[:converted] + a[:participated]
+          beta_a =  experiment_weights[0]
+          alpha_b = b[:converted] + b[:participated]
+          beta_b =  experiment_weights[1]
+          alpha_c = c[:converted] + c[:participated]
+          beta_c = experiment_weights[2]
+
+          # TODO calculate this incrementally by caching intermediate results
+          prob_winning =
+            if variants.size == 2
+              cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
+                Calculations.level_prob_b_beats_a(alpha_b, beta_b, alpha_c, beta_c)
+              end
+            else
+              cache_fetch ["field_test", "level_prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
+                Calculations.level_prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
+              end
+            end
+
+          results[variants[i]][:prob_winning] = prob_winning
+          total += prob_winning
+        end
+
+        results[variants.last][:prob_winning] = 1 - total
+      end
+      results
+    end
+
     def active?
       !winner
     end
