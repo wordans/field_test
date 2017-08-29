@@ -90,7 +90,7 @@ module FieldTest
         alpha_a_plus_i = alpha_a + i
         lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
         0.upto(alpha_a - 1) do |j|
-          total += Mat.exp(alpha_a_time_log_bb + j * log_bc + (j + alpha_a_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_a_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_aa)
+          total += Math.exp(alpha_a_time_log_bb + j * log_bc + (j + alpha_a_plus_i) * log_ba_plus_bb_plus_bc + Math.log(Math.gamma(j + alpha_a_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_aa)
         end
       end
 
