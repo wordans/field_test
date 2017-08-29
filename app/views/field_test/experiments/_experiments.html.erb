@@ -60,8 +60,7 @@
               <% end %>
             </td>
             <td>
-              <% binding.pry %>
-              <% if !level_result[:prob_winning].blank? %>
+              <% if !level_result[:prob_winning].blank? || !level_result[:prob_winning].nan? %>
                 <% if level_result[:prob_winning] < 0.01 %>
                   &lt; 1%
                 <% else %>
