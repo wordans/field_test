@@ -222,9 +222,9 @@ module FieldTest
           b = level_results.values[(i + 1) % variants.size]
           a = level_results.values[(i + 2) % variants.size]
 
-          a_weight = weights[(i + 2) % variants.size]/weights[i]
-          b_weight = weights[(i + 1) % variants.size]/weights[i]
-          c_weight = weights[i]/weights[i]
+          a_weight = weights[(i + 2) % variants.size]/weights[0]
+          b_weight = weights[(i + 1) % variants.size]/weights[0]
+          c_weight = weights[i]/weights[0]
 
           # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
           beta_a =  a_weight
@@ -241,13 +241,13 @@ module FieldTest
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
             if variants.size == 2
-              # cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
+              cache_fetch ["field_test", "level_prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
                 Calculations.level_prob_b_beats_a(alpha_b, beta_b, alpha_c, beta_c)
-              # end
+              end
             else
-              # cache_fetch ["field_test", "level_prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
+              cache_fetch ["field_test", "level_prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
                 Calculations.level_prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
-              # end
+              end
             end
 
           level_results[variants[i]][:prob_winning] = prob_winning
