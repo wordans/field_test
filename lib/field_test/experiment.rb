@@ -333,9 +333,9 @@ module FieldTest
 
           # ========================
 
-          alpha_1 = a[:conversion_value]
-          alpha_2 = b[:conversion_value]
-          alpha_3 = c[:conversion_value]
+          alpha_1 = a[:conversion_value] * a[:participated]
+          alpha_2 = b[:conversion_value] * b[:participated]
+          alpha_3 = c[:conversion_value] * c[:participated]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
