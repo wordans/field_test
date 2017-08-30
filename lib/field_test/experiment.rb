@@ -229,8 +229,6 @@ module FieldTest
           b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[i]).to_f
           c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
-          binding.pry
-
           beta_1 =  a_weight
           beta_2 =  b_weight
           beta_3 = c_weight
