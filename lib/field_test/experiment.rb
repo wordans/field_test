@@ -347,8 +347,11 @@ module FieldTest
           level_results[variants[i]][:prob_winning] = prob_winning
           total += prob_winning unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
-        binding.pry
-        level_results[variants.last][:prob_winning] = 1 - total unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+        if level_results.values.map{|h| h[:prob_winning]}.uniq.include?(nil)
+          level_results[variants.last][:prob_winning] = nil
+        else
+          level_results[variants.last][:prob_winning] = 1 - total
+        end
       end
       level_results
     end
