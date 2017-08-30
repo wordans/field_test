@@ -257,6 +257,8 @@ module FieldTest
         total_weight = 0.0
         total_limit_weight = 0.0
 
+        binding.pry
+
         (variants.size - 1).times do |i|
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
