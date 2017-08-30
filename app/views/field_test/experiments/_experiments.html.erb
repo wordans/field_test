@@ -10,7 +10,6 @@
 
   <% experiment.goals.each do |goal| %>
     <% level_results_number = experiment.level_results_number(goal: goal) %>
-    <% binding.pry %>
     <!-- level_results = experiment.level_results(goal: goal)
     results = experiment.results(goal: goal) -->
     <% if experiment.multiple_goals? %>
@@ -63,7 +62,7 @@
             </td>
             <td>
               <% if !level_result_number[:prob_winning].blank? && !level_result_number[:prob_winning].nan? %>
-                  <%= (100.0 * level_result_number[:prob_winning]).round %>
+                  <%= (100.0 * level_result_number[:prob_winning]).round %>%
               <% else %>
                   -
               <% end %>

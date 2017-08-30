@@ -315,7 +315,6 @@ module FieldTest
         total = 0.0
 
         (variants.size - 1).times do |i|
-          binding.pry
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
           c = level_results.values[(i + 2) % variants.size]
@@ -352,7 +351,6 @@ module FieldTest
               end
             end
           level_results[variants[i]][:prob_winning] = prob_winning
-          binding.pry
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
 
