@@ -55,6 +55,24 @@ module FieldTest
         prob_b_beats_a(alpha_c, beta_c, alpha_b, beta_b) + total
     end
 
+    def self.level_prob_1_beats_2(alpha_1, beta_1, alpha_2, beta_2)
+      total = 0.0
+
+      # for performance
+
+      log_beta_1 = Math.log(beta_1)
+      log_beta_2 = Math.log(beta_2)
+      log_beta_1_plus_beta_2 = Math.log(beta_1 + beta_2)
+      alpha_2_times_log_beta_2 = alpha_2 * log_beta_2
+
+      0.upto(alpha_1 - 1) do |i|
+        # Possible problem here
+        total += Math.exp(i * log_beta_1 + alpha_2_times_log_beta_2 - (i + alpha_2) * log_beta_1_plus_beta_2 - Math.log(i + alpha_2) - Math.logbeta(i + 1, alpha_2))
+      end
+
+      total
+    end
+
 
     def self.level_prob_b_beats_a(alpha_a, beta_a, alpha_b, beta_b)
       total = 0.0
@@ -97,6 +115,30 @@ module FieldTest
 
       1 - level_prob_b_beats_a(alpha_c, beta_c, alpha_a, beta_a) -
         level_prob_b_beats_a(alpha_c, beta_c, alpha_b, beta_b) + total
+    end
+
+    def self.level_prob_1_beats_2_and_3(alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3)
+      total = 0.0
+
+      # for performance
+      log_beta_3 = Math.log(beta_3)
+      log_beta_2 = Math.log(beta_2)
+      log_beta_1 = Math.log(beta_1)
+      alpha_1_times_log_b1 = alpha_1 * log_beta_1
+      log_beta_1_plus_beta_2_plus_beta_3 = Math.log(beta_1 + beta_2 + beta_3)
+      lgamma_alpha_1 = Math.log(Math.gamma(alpha_1))
+
+      0.upto(alpha_2 - 1) do |i|
+        alpha_1_plus_i = alpha_1 + i
+        lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
+        i_times_log_beta_2 = i * log_beta_2
+        0.upto(alpha_3 - 1) do |j|
+          total += Math.exp(alpha_1_time_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.log(Math.gamma(j + alpha_1_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
+        end
+      end
+
+      1 - level_prob_1_beats_2(alpha_2, beta_2, alpha_1, beta_1) -
+        level_prob_1_beats_2(alpha_3, beta_3, alpha_1, beta_1) + total
     end
   end
 end

@@ -217,6 +217,8 @@ module FieldTest
 
         total = 0.0
 
+        # =======================================================
+
         (variants.size - 1).times do |i|
           c = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
@@ -261,6 +263,108 @@ module FieldTest
         level_results[variants.last][:prob_winning] = 1 - total
       end
       level_results
+
+    # =======================================================
+
+    end
+
+    def level_results_number(goal: nil)
+      goal ||= goals.first
+
+      relation = memberships.group(:variant)
+      relation = relation.where("created_at >= ?", started_at) if started_at
+      relation = relation.where("created_at <= ?", ended_at) if ended_at
+
+      if use_events?
+        data = {}
+        sql = relation.joins("LEFT JOIN field_test_events ON field_test_events.field_test_membership_id = field_test_memberships.id").select("variant, COUNT(DISTINCT participant) AS participated, COUNT(DISTINCT field_test_membership_id) AS converted").where(field_test_events: {name: goal})
+
+        FieldTest::Membership.connection.select_all(sql).each do |row|
+          data[[row["variant"], true]] = row["converted"].to_i
+          data[[row["variant"], false]] = row["participated"].to_i - row["converted"].to_i
+        end
+      else
+        data = relation.group(:converted).count
+        value_data = relation.group(:converted).average(:value)
+      end
+
+      level_results = {}
+      variants.each do |variant|
+        converted = data[[variant, true]].to_i
+        participated = converted + data[[variant, false]].to_i
+
+        participated > 0 ? conversion_rate = converted.to_f / participated : conversion_rate = nil
+
+        (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
+
+        (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
+
+        level_results[variant] = {
+          participated: participated,
+          converted: converted,
+          conversion_rate: conversion_rate,
+          average_conversion_value: average_conversion_value,
+          conversion_value: conversion_value
+        }
+
+      end
+
+      case variants.size
+      when 1, 2, 3
+
+        total = 0.0
+
+        # =======================================================
+
+        (variants.size - 1).times do |i|
+          binding.pry
+          c = level_results.values[i]
+          b = level_results.values[(i + 1) % variants.size]
+          a = level_results.values[(i + 2) % variants.size]
+
+          a_weight = weights[(i + 2) % variants.size]/weights[0]
+          b_weight = weights[(i + 1) % variants.size]/weights[0]
+          c_weight = weights[i]/weights[0]
+
+          # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
+
+          beta_1 =  a_weight
+          beta_2 =  b_weight
+          beta_3 = c_weight
+
+          alpha_1 = a[:participated]
+          # beta_a =  experiment_weights[(i + 2) % variants.size]
+          alpha_2 = b[:participated]
+          # beta_b =  experiment_weights[(i + 1) % variants.size]
+          alpha_3 = c[:participated]
+          # beta_c = experiment_weights[i]
+
+          # TODO calculate this incrementally by caching intermediate results
+
+          prob_winning =
+            if (alpha_a == 0 || alpha_b == 0 || alpha_c == 0)
+              1 / variants.size.to_f
+              "-"
+            elsif variants.size == 2
+              cache_fetch ["field_test", "level_prob_2_beats_1", alpha_2, beta_2, alpha_3, beta_3] do
+                Calculations.level_prob_1_beats_2(alpha_2, beta_2, alpha_3, beta_3)
+              end
+            else
+              cache_fetch ["field_test", "level_prob_3_beats_1_and_2", alpha_3, beta_3, alpha_2, beta_2, alpha_1, beta_1] do
+                Calculations.level_prob_1_beats_2_and_3(alpha_3, beta_3, alpha_2, beta_2, alpha_1, beta_1)
+              end
+            end
+
+          level_results[variants[i]][:prob_winning] = prob_winning
+          total += prob_winning
+        end
+
+        level_results[variants.last][:prob_winning] = 1 - total
+      end
+      level_results
+
+    # =======================================================
+
     end
 
     def active?

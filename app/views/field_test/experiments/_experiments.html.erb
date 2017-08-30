@@ -9,6 +9,7 @@
   <% end %>
 
   <% experiment.goals.each do |goal| %>
+    <% level_results_number = experiment.level_results_number(goal: goal) %>
     <% level_results = experiment.level_results(goal: goal) %>
     <% results = experiment.results(goal: goal) %>
     <% if experiment.multiple_goals? %>
@@ -28,7 +29,7 @@
         </tr>
       </thead>
       <tbody>
-        <% level_results.each do |variant, level_result| %>
+        <% level_results_number.each do |variant, level_result_number| %>
           <tr>
             <td>
               <%= variant %>
@@ -36,33 +37,33 @@
                 <span class="check">✓</span>
               <% end %>
             </td>
-            <td><%= level_result[:participated] %></td>
-            <td><%= level_result[:converted] %></td>
+            <td><%= level_result_number[:participated] %></td>
+            <td><%= level_result_number[:converted] %></td>
             <td>
-              <% if level_result[:conversion_rate] %>
-                <%= (100.0 * level_result[:conversion_rate]).round %>%
+              <% if level_result_number[:conversion_rate] %>
+                <%= (100.0 * level_result_number[:conversion_rate]).round %>%
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if level_result[:average_conversion_value] %>
-                <%= level_result[:average_conversion_value].round %>
+              <% if level_result_number[:average_conversion_value] %>
+                <%= level_result_number[:average_conversion_value].round %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if level_result[:conversion_value] %>
-                <%= level_result[:conversion_value].round %>
+              <% if level_result_number[:conversion_value] %>
+                <%= level_result_number[:conversion_value].round %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
-              <% if !level_result[:prob_winning].blank? && !level_result[:prob_winning].nan? %>
+              <% if !level_result_number[:prob_winning].blank? && !level_result_number[:prob_winning].nan? %>
 
-                  <%= (100.0 * level_result[:prob_winning]).round %>%
+                  <%= (100.0 * level_result_number[:prob_winning]).round %>%
 
               <% else %>
                   -
