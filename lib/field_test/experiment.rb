@@ -318,13 +318,13 @@ module FieldTest
 
         (variants.size - 1).times do |i|
           binding.pry
-          c = level_results.values[i]
+          a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
-          a = level_results.values[(i + 2) % variants.size]
+          c = level_results.values[(i + 2) % variants.size]
 
-          a_weight = weights[(i + 2) % variants.size]/weights[0]
-          b_weight = weights[(i + 1) % variants.size]/weights[0]
-          c_weight = weights[i]/weights[0]
+          c_weight = weights[(i + 2) % variants.size]/weights[i].to_f
+          b_weight = weights[(i + 1) % variants.size]/weights[i].to_f
+          a_weight = weights[i]/weights[i].to_f
 
           # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
 
@@ -346,12 +346,12 @@ module FieldTest
               1 / variants.size.to_f
               "-"
             elsif variants.size == 2
-              cache_fetch ["field_test", "level_prob_2_beats_1", alpha_2, beta_2, alpha_3, beta_3] do
-                Calculations.level_prob_1_beats_2(alpha_2, beta_2, alpha_3, beta_3)
+              cache_fetch ["field_test", "level_prob_1_beats_2", alpha_1, beta_1, alpha_2, beta_2] do
+                Calculations.level_prob_1_beats_2(alpha_1, beta_1, alpha_2, beta_2)
               end
             else
-              cache_fetch ["field_test", "level_prob_3_beats_1_and_2", alpha_3, beta_3, alpha_2, beta_2, alpha_1, beta_1] do
-                Calculations.level_prob_1_beats_2_and_3(alpha_3, beta_3, alpha_2, beta_2, alpha_1, beta_1)
+              cache_fetch ["field_test", "level_prob_1_beats_2_and_3", alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3] do
+                Calculations.level_prob_1_beats_2_and_3(alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3)
               end
             end
 
