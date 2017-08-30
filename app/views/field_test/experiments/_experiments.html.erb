@@ -18,6 +18,7 @@
       <thead>
         <tr>
           <th>Variant</th>
+          <th style="width: 10%;">Limit Weights</th>
           <th style="width: 10%;">Weights</th>
           <th style="width: 10%;">Participants</th>
           <th style="width: 10%;">Conversions</th>
@@ -36,6 +37,13 @@
               <%= variant %>
               <% if variant == experiment.winner %>
                 <span class="check">✓</span>
+              <% end %>
+            </td>
+            <td>
+              <% if !level_result_number[:limit_weights].blank? %>
+                  <%= (100.0 * level_result_number[:limit_weights]).round %>%
+              <% else %>
+                  -
               <% end %>
             </td>
             <td>

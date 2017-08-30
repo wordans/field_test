@@ -255,6 +255,7 @@ module FieldTest
 
         total = 0.0
         total_weight = 0.0
+        total_limit_weight = 0.0
 
         (variants.size - 1).times do |i|
           a = level_results.values[i]
@@ -273,6 +274,10 @@ module FieldTest
           weight_1 =  a[:participated]/total_participated.to_f
           weight_2 =  b[:participated]/total_participated.to_f
           weight_3 = c[:participated]/total_participated.to_f
+
+          limit_weight_1 = weights[i]
+          limit_weight_2 = weights[(i + 1) % variants.size]
+          limit_weight_3 = weights[(i + 2) % variants.size]
 
           # alpha_1 = a[:average_participant_value]
           # alpha_2 = b[:average_participant_value]
@@ -297,6 +302,9 @@ module FieldTest
             end
           level_results[variants[i]][:prob_winning_total_revenues] = prob_winning
           level_results[variants[i]][:weights] = weight_1
+          level_results[variants[i]][:limit_weights] = limit_weight_1
+
+          total_limit_weight += limit_weight_1 unless (limit_weight_1.blank?)
           total_weight += weight_1 unless (total_participated.blank? || weight_1.blank?)
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
@@ -311,6 +319,12 @@ module FieldTest
           level_results[variants.last][:weights] = nil
         else
           level_results[variants.last][:weights] = 1 - total_weight
+        end
+
+        if level_results.values.map{|h| h[:limit_weights]}[0..(variants.size-2)].uniq.include?(nil)
+          level_results[variants.last][:limit_weights] = nil
+        else
+          level_results[variants.last][:limit_weights] = 1 - total_weight
         end
 
       end
