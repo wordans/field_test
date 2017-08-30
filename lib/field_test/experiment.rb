@@ -353,6 +353,7 @@ module FieldTest
         end
         if level_results.values.map{|h| h[:prob_winning]}.uniq.include?(nil)
           level_results[variants.last][:prob_winning] = nil
+          binding.pry
         else
           level_results[variants.last][:prob_winning] = 1 - total
         end
