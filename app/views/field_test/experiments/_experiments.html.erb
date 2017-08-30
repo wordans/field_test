@@ -23,6 +23,7 @@
           <th style="width: 10%;">Conversion Rate</th>
           <th style="width: 10%;">Average Conversion Value</th>
           <th style="width: 10%;">Average Participant Value</th>
+          <th style="width: 10%;">Total Revenue</th>
           <th style="width: 10%;">Prob Winning</th>
         </tr>
       </thead>
@@ -52,8 +53,8 @@
               <% end %>
             </td>
             <td>
-              <% if level_result_number[:conversion_value] %>
-                <%= level_result_number[:conversion_value].round %>
+              <% if level_result_number[:average_participant_value] %>
+                <%= level_result_number[:average_participant_value].round %>
               <% else %>
                 -
               <% end %>

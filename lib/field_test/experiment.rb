@@ -123,14 +123,14 @@ module FieldTest
 
         (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
 
-        (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
+        (participated > 0 && !average_conversion_value.nil?) ? average_participant_value = conversion_rate * average_conversion_value : average_participant_value = nil
 
         results[variant] = {
           participated: participated,
           converted: converted,
           conversion_rate: conversion_rate,
           average_conversion_value: average_conversion_value,
-          conversion_value: conversion_value
+          average_participant_value: average_participant_value
         }
 
       end
@@ -200,14 +200,14 @@ module FieldTest
 
         (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
 
-        (participated > 0 && !average_conversion_value.nil?) ? conversion_value = conversion_rate * average_conversion_value : conversion_value = nil
+        (participated > 0 && !average_conversion_value.nil?) ? average_participant_value = conversion_rate * average_conversion_value : average_participant_value = nil
 
         level_results[variant] = {
           participated: participated,
           converted: converted,
           conversion_rate: conversion_rate,
           average_conversion_value: average_conversion_value,
-          conversion_value: conversion_value
+          average_participant_value: average_participant_value
         }
 
       end
