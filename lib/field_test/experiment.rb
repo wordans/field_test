@@ -217,6 +217,41 @@ module FieldTest
 
       case variants.size
       when 1, 2, 3
+        total = 0.0
+
+        (variants.size - 1).times do |i|
+          c = level_results.values[i]
+          b = level_results.values[(i + 1) % variants.size]
+          a = level_results.values[(i + 2) % variants.size]
+
+          alpha_a = 1 + a[:converted]
+          beta_a = 1 + a[:participated] - a[:converted]
+          alpha_b = 1 + b[:converted]
+          beta_b = 1 + b[:participated] - b[:converted]
+          alpha_c = 1 + c[:converted]
+          beta_c = 1 + c[:participated] - c[:converted]
+
+          # TODO calculate this incrementally by caching intermediate results
+          prob_winning =
+            if variants.size == 2
+              cache_fetch ["field_test", "prob_b_beats_a", alpha_b, beta_b, alpha_c, beta_c] do
+                Calculations.prob_b_beats_a(alpha_b, beta_b, alpha_c, beta_c)
+              end
+            else
+              cache_fetch ["field_test", "prob_c_beats_a_and_b", alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c] do
+                Calculations.prob_c_beats_a_and_b(alpha_a, beta_a, alpha_b, beta_b, alpha_c, beta_c)
+              end
+            end
+
+          level_results[variants[i]][:prob_winning_conversion_rates] = prob_winning
+          total += prob_winning
+        end
+
+        level_results[variants.last][:prob_winning_conversion_rates] = 1 - total
+      end
+
+      case variants.size
+      when 1, 2, 3
 
         total = 0.0
 
@@ -254,14 +289,14 @@ module FieldTest
                 Calculations.level_prob_1_beats_2_and_3(alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3)
               end
             end
-          level_results[variants[i]][:prob_winning] = prob_winning
+          level_results[variants[i]][:prob_winning_total_revenues] = prob_winning
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
 
-        if level_results.values.map{|h| h[:prob_winning]}[0..(variants.size-2)].uniq.include?(nil)
-          level_results[variants.last][:prob_winning] = nil
+        if level_results.values.map{|h| h[:prob_winning_total_revenues]}[0..(variants.size-2)].uniq.include?(nil)
+          level_results[variants.last][:prob_winning_total_revenues] = nil
         else
-          level_results[variants.last][:prob_winning] = 1 - total
+          level_results[variants.last][:prob_winning_total_revenues] = 1 - total
         end
       end
       level_results

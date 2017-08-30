@@ -21,10 +21,11 @@
           <th style="width: 10%;">Participants</th>
           <th style="width: 10%;">Conversions</th>
           <th style="width: 10%;">Conversion Rate</th>
+          <th style="width: 10%;">Prob Winning Conversion Rate</th>
           <th style="width: 10%;">Average Conversion Value</th>
           <th style="width: 10%;">Average Participant Value</th>
           <th style="width: 10%;">Total Revenue</th>
-          <th style="width: 10%;">Prob Winning</th>
+          <th style="width: 10%;">Prob Winning Total Revenue</th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +44,13 @@
                 <%= (100.0 * level_result_number[:conversion_rate]).round %>%
               <% else %>
                 -
+              <% end %>
+            </td>
+            <td>
+              <% if !level_result_number[:prob_winning_conversion_rates].blank? && !level_result_number[:prob_winning_conversion_rates].nan? %>
+                  <%= (100.0 * level_result_number[:prob_winning_conversion_rates]).round %>%
+              <% else %>
+                  -
               <% end %>
             </td>
             <td>
@@ -67,8 +75,8 @@
               <% end %>
             </td>
             <td>
-              <% if !level_result_number[:prob_winning].blank? && !level_result_number[:prob_winning].nan? %>
-                  <%= (100.0 * level_result_number[:prob_winning]).round %>%
+              <% if !level_result_number[:prob_winning_total_revenues].blank? && !level_result_number[:prob_winning_total_revenues].nan? %>
+                  <%= (100.0 * level_result_number[:prob_winning_total_revenues]).round %>%
               <% else %>
                   -
               <% end %>
