@@ -202,12 +202,15 @@ module FieldTest
 
         (participated > 0 && !average_conversion_value.nil?) ? average_participant_value = conversion_rate * average_conversion_value : average_participant_value = nil
 
+        (!average_conversion_value.nil? && !converted.nil?) ? total_revenue = average_conversion_value * converted : total_revenue = nil
+
         level_results[variant] = {
           participated: participated,
           converted: converted,
           conversion_rate: conversion_rate,
           average_conversion_value: average_conversion_value,
-          average_participant_value: average_participant_value
+          average_participant_value: average_participant_value,
+          total_revenue: total_revenue
         }
 
       end
