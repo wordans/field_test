@@ -47,7 +47,7 @@
               <% end %>
             </td>
             <td>
-              <% if !level_result_number[:weights].blank? %>
+              <% if !level_result_number[:weights].blank? && !level_result_number[:weights].nan? %>
                   <%= (100.0 * level_result_number[:weights]).round %>%
               <% else %>
                   -
