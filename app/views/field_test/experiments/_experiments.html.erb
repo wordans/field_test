@@ -10,6 +10,7 @@
 
   <% experiment.goals.each do |goal| %>
     <% level_results_number = experiment.level_results_number(goal: goal) %>
+    <% binding.pry %>
     <!-- level_results = experiment.level_results(goal: goal)
     results = experiment.results(goal: goal) -->
     <% if experiment.multiple_goals? %>
@@ -30,7 +31,6 @@
       </thead>
       <tbody>
         <% level_results_number.each do |variant, level_result_number| %>
-          <% binding.pry %>
           <tr>
             <td>
               <%= variant %>

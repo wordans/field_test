@@ -309,12 +309,15 @@ module FieldTest
 
       end
 
+      binding.pry
+
       case variants.size
       when 1, 2, 3
 
         total = 0.0
 
         (variants.size - 1).times do |i|
+          binding.pry
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
           c = level_results.values[(i + 2) % variants.size]
@@ -345,6 +348,7 @@ module FieldTest
               end
             end
           level_results[variants[i]][:prob_winning] = prob_winning
+          binding.pry
           total += prob_winning unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
         if level_results.values.map{|h| h[:prob_winning]}.uniq.include?(nil)
