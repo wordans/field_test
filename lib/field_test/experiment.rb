@@ -257,8 +257,6 @@ module FieldTest
         total_weight = 0.0
         total_limit_weight = 0.0
 
-        binding.pry
-
         (variants.size - 1).times do |i|
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
@@ -309,6 +307,8 @@ module FieldTest
           total_limit_weight += limit_weight_1 unless (limit_weight_1.blank?)
           total_weight += weight_1 unless (total_participated.blank? || weight_1.blank?)
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+
+          binding.pry
         end
 
         if level_results.values.map{|h| h[:prob_winning_total_revenues]}[0..(variants.size-2)].uniq.include?(nil)
