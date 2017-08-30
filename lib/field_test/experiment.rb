@@ -229,13 +229,19 @@ module FieldTest
           b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[i]).to_f
           c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
+          binding.pry
+
           beta_1 =  a_weight
           beta_2 =  b_weight
           beta_3 = c_weight
 
-          alpha_1 = a[:average_participant_value]
-          alpha_2 = b[:average_participant_value]
-          alpha_3 = c[:average_participant_value]
+          # alpha_1 = a[:average_participant_value]
+          # alpha_2 = b[:average_participant_value]
+          # alpha_3 = c[:average_participant_value]
+
+          alpha_1 = a[:total_revenue]
+          alpha_2 = b[:total_revenue]
+          alpha_3 = c[:total_revenue]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
