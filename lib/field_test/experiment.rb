@@ -264,8 +264,6 @@ module FieldTest
           # b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[i]).to_f
           # c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
-          binding.pry
-
           total_participated = level_results.values.map{|h| h[:participated]}.sum
           beta_1 = a[:participated]/(total_participated - a[:participated]).to_f
           beta_2 = b[:participated]/(total_participated - a[:participated]).to_f
