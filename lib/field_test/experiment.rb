@@ -254,6 +254,7 @@ module FieldTest
       when 1, 2, 3
 
         total = 0.0
+        total_weight = 0.0
 
         (variants.size - 1).times do |i|
           a = level_results.values[i]
@@ -296,7 +297,6 @@ module FieldTest
             end
           level_results[variants[i]][:prob_winning_total_revenues] = prob_winning
           level_results[variants[i]][:weights] = weight_1
-          binding.pry
           total_weight += weight_1 unless (total_participated.blank? || weight_1.blank?)
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
