@@ -328,9 +328,15 @@ module FieldTest
           beta_2 =  b_weight
           beta_3 = c_weight
 
-          alpha_1 = a[:participated]
-          alpha_2 = b[:participated]
-          alpha_3 = c[:participated]
+          # alpha_1 = a[:participated]
+          # alpha_2 = b[:participated]
+          # alpha_3 = c[:participated]
+
+          # ========================
+
+          alpha_1 = a[:conversion_value]
+          alpha_2 = b[:conversion_value]
+          alpha_3 = c[:conversion_value]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
