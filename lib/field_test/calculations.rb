@@ -124,7 +124,7 @@ module FieldTest
       log_beta_3 = Math.log(beta_3)
       log_beta_2 = Math.log(beta_2)
       log_beta_1 = Math.log(beta_1)
-      alpha_1_times_log_b1 = alpha_1 * log_beta_1
+      alpha_1_times_log_beta_1 = alpha_1 * log_beta_1
       log_beta_1_plus_beta_2_plus_beta_3 = Math.log(beta_1 + beta_2 + beta_3)
       lgamma_alpha_1 = Math.log(Math.gamma(alpha_1))
 
