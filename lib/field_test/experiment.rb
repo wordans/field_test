@@ -296,7 +296,7 @@ module FieldTest
             end
           level_results[variants[i]][:prob_winning_total_revenues] = prob_winning
           level_results[variants[i]][:weights] = weight_1
-          total_weight += weight_1 unless (total_participated.blank? || total_participated == 0 )
+          total_weight += weight_1 unless (total_participated.blank? || weight_1.blank?)
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
 
