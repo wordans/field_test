@@ -309,8 +309,6 @@ module FieldTest
 
       end
 
-      binding.pry
-
       case variants.size
       when 1, 2, 3
 
@@ -336,7 +334,7 @@ module FieldTest
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
-            if (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+            if (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
               nil
             elsif variants.size == 2
               cache_fetch ["field_test", "level_prob_1_beats_2", alpha_1, beta_1, alpha_2, beta_2] do
@@ -349,11 +347,11 @@ module FieldTest
             end
           level_results[variants[i]][:prob_winning] = prob_winning
           binding.pry
-          total += prob_winning unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+          total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
-        if level_results.values.map{|h| h[:prob_winning]}.uniq.include?(nil)
+
+        if level_results.values.map{|h| h[:prob_winning]}[0..(variants.size-2)].uniq.include?(nil)
           level_results[variants.last][:prob_winning] = nil
-          binding.pry
         else
           level_results[variants.last][:prob_winning] = 1 - total
         end
