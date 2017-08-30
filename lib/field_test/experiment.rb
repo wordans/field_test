@@ -317,14 +317,13 @@ module FieldTest
         # =======================================================
 
         (variants.size - 1).times do |i|
-          binding.pry
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
           c = level_results.values[(i + 2) % variants.size]
 
-          c_weight = weights[(i + 2) % variants.size]/weights[i].to_f
-          b_weight = weights[(i + 1) % variants.size]/weights[i].to_f
           a_weight = weights[i]/weights[i].to_f
+          b_weight = weights[(i + 1) % variants.size]/weights[i].to_f
+          c_weight = weights[(i + 2) % variants.size]/weights[i].to_f
 
           # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
 
@@ -342,7 +341,8 @@ module FieldTest
           # TODO calculate this incrementally by caching intermediate results
 
           prob_winning =
-            if (alpha_a == 0 || alpha_b == 0 || alpha_c == 0)
+            if (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+              binding.pry
               1 / variants.size.to_f
               "-"
             elsif variants.size == 2
