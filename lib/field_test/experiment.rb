@@ -324,7 +324,7 @@ module FieldTest
         if level_results.values.map{|h| h[:limit_weights]}[0..(variants.size-2)].uniq.include?(nil)
           level_results[variants.last][:limit_weights] = nil
         else
-          level_results[variants.last][:limit_weights] = 1 - total_weight
+          level_results[variants.last][:limit_weights] = 100 - total_weight
         end
 
       end

@@ -41,7 +41,7 @@
             </td>
             <td>
               <% if !level_result_number[:limit_weights].blank? %>
-                  <%= (100.0 * level_result_number[:limit_weights]).round %>%
+                  <%= level_result_number[:limit_weights].round %>%
               <% else %>
                   -
               <% end %>
