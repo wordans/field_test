@@ -38,7 +38,13 @@
                 <span class="check">✓</span>
               <% end %>
             </td>
-            <td><%= level_result_number[:weights] %></td>
+            <td>
+              <% if !level_result_number[:weights].blank? %>
+                  <%= (100.0 * level_result_number[:weights]).round %>%
+              <% else %>
+                  -
+              <% end %>
+            </td>
             <td><%= level_result_number[:participated] %></td>
             <td><%= level_result_number[:converted] %></td>
             <td>
