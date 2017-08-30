@@ -62,9 +62,7 @@
             </td>
             <td>
               <% if !level_result_number[:prob_winning].blank? && !level_result_number[:prob_winning].nan? %>
-
-                  <%= (100.0 * level_result_number[:prob_winning]).round %>%
-
+                  <%= (100.0 * level_result_number[:prob_winning]).round %>
               <% else %>
                   -
               <% end %>

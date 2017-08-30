@@ -314,37 +314,27 @@ module FieldTest
 
         total = 0.0
 
-        # =======================================================
-
         (variants.size - 1).times do |i|
           a = level_results.values[i]
           b = level_results.values[(i + 1) % variants.size]
           c = level_results.values[(i + 2) % variants.size]
 
-          a_weight = weights[i]/weights[i].to_f
-          b_weight = weights[(i + 1) % variants.size]/weights[i].to_f
-          c_weight = weights[(i + 2) % variants.size]/weights[i].to_f
-
-          # experiment_weights = weights.map{|weight| weight.to_f/weights[i]}
+          a_weight = weights[i]/(weights.sum-weights[i]).to_f
+          b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[(i + 1) % variants.size]).to_f
+          c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[(i + 2) % variants.size]).to_f
 
           beta_1 =  a_weight
           beta_2 =  b_weight
           beta_3 = c_weight
 
           alpha_1 = a[:participated]
-          # beta_a =  experiment_weights[(i + 2) % variants.size]
           alpha_2 = b[:participated]
-          # beta_b =  experiment_weights[(i + 1) % variants.size]
           alpha_3 = c[:participated]
-          # beta_c = experiment_weights[i]
 
           # TODO calculate this incrementally by caching intermediate results
-
           prob_winning =
             if (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
-              binding.pry
-              1 / variants.size.to_f
-              "-"
+              nil
             elsif variants.size == 2
               cache_fetch ["field_test", "level_prob_1_beats_2", alpha_1, beta_1, alpha_2, beta_2] do
                 Calculations.level_prob_1_beats_2(alpha_1, beta_1, alpha_2, beta_2)
@@ -354,17 +344,12 @@ module FieldTest
                 Calculations.level_prob_1_beats_2_and_3(alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3)
               end
             end
-
           level_results[variants[i]][:prob_winning] = prob_winning
-          total += prob_winning
+          total += prob_winning unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
-
-        level_results[variants.last][:prob_winning] = 1 - total
+        level_results[variants.last][:prob_winning] = 1 - total unless (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
       end
       level_results
-
-    # =======================================================
-
     end
 
     def active?
