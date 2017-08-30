@@ -133,7 +133,7 @@ module FieldTest
         lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
         i_times_log_beta_2 = i * log_beta_2
         0.upto(alpha_3 - 1) do |j|
-          total += Math.exp(alpha_1_time_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.log(Math.gamma(j + alpha_1_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
+          total += Math.exp(alpha_1_times_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.log(Math.gamma(j + alpha_1_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
         end
       end
 
