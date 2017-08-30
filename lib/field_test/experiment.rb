@@ -267,13 +267,13 @@ module FieldTest
           binding.pry
 
           total_participated = level_results.values.map{|h| h[:participated]}.sum
-          a_weight = a[:participated]/(total_participated - a[:participated]).to_f
-          b_weight = b[:participated]/(total_participated - a[:participated]).to_f
-          c_weight = c[:participated]/(total_participated - a[:participated]).to_f
+          beta_1 = a[:participated]/(total_participated - a[:participated]).to_f
+          beta_2 = b[:participated]/(total_participated - a[:participated]).to_f
+          beta_3 = c[:participated]/(total_participated - a[:participated]).to_f
 
-          beta_1 =  a_weight
-          beta_2 =  b_weight
-          beta_3 = c_weight
+          weight_1 =  a[:participated]/total_participated.to_f
+          weight_2 =  b[:participated]/total_participated.to_f
+          weight_3 = c[:participated]/total_participated.to_f
 
           # alpha_1 = a[:average_participant_value]
           # alpha_2 = b[:average_participant_value]
@@ -297,8 +297,8 @@ module FieldTest
               end
             end
           level_results[variants[i]][:prob_winning_total_revenues] = prob_winning
-          level_results[variants[i]][:weights] = a_weight
-          total_weight += a_weight unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
+          level_results[variants[i]][:weights] = weight_1
+          total_weight += weight_1 unless (total_participated.blank? || total_participated == 0 )
           total += prob_winning unless (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
         end
 
