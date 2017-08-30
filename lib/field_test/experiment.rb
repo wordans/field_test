@@ -323,8 +323,8 @@ module FieldTest
           c = level_results.values[(i + 2) % variants.size]
 
           a_weight = weights[i]/(weights.sum-weights[i]).to_f
-          b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[(i + 1) % variants.size]).to_f
-          c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[(i + 2) % variants.size]).to_f
+          b_weight = weights[(i + 1) % variants.size]/(weights.sum-weights[i]).to_f
+          c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
           beta_1 =  a_weight
           beta_2 =  b_weight
