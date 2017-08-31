@@ -41,14 +41,14 @@
             </td>
             <td>
               <% if !level_result_number[:limit_weights].blank? %>
-                  <%= level_result_number[:limit_weights].round %>%
+                  <%= level_result_number[:limit_weights].round(2) %>%
               <% else %>
                   -
               <% end %>
             </td>
             <td>
               <% if !level_result_number[:weights].blank? && !level_result_number[:weights].nan? %>
-                  <%= (100.0 * level_result_number[:weights]).round %>%
+                  <%= (100.0 * level_result_number[:weights]).round(2) %>%
               <% else %>
                   -
               <% end %>
@@ -57,42 +57,42 @@
             <td><%= level_result_number[:converted] %></td>
             <td>
               <% if level_result_number[:conversion_rate] %>
-                <%= (100.0 * level_result_number[:conversion_rate]).round %>%
+                <%= (100.0 * level_result_number[:conversion_rate]).round(2) %>%
               <% else %>
                 -
               <% end %>
             </td>
             <td>
               <% if !level_result_number[:prob_winning_conversion_rates].blank? && !level_result_number[:prob_winning_conversion_rates].nan? %>
-                  <%= (100.0 * level_result_number[:prob_winning_conversion_rates]).round %>%
+                  <%= (100.0 * level_result_number[:prob_winning_conversion_rates]).round(2) %>%
               <% else %>
                   -
               <% end %>
             </td>
             <td>
               <% if level_result_number[:average_conversion_value] %>
-                <%= level_result_number[:average_conversion_value].round %>
+                <%= level_result_number[:average_conversion_value].round(2) %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
               <% if level_result_number[:average_participant_value] %>
-                <%= level_result_number[:average_participant_value].round %>
+                <%= level_result_number[:average_participant_value].round(2) %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
               <% if level_result_number[:total_revenue] %>
-                <%= level_result_number[:total_revenue].round %>
+                <%= level_result_number[:total_revenue].round(2) %>
               <% else %>
                 -
               <% end %>
             </td>
             <td>
               <% if !level_result_number[:prob_winning_total_revenues].blank? && !level_result_number[:prob_winning_total_revenues].nan? %>
-                  <%= (100.0 * level_result_number[:prob_winning_total_revenues]).round %>%
+                  <%= (100.0 * level_result_number[:prob_winning_total_revenues]).round(2) %>%
               <% else %>
                   -
               <% end %>
