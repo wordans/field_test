@@ -270,8 +270,8 @@ module FieldTest
           # c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
           total_participated = level_results.values.map{|h| h[:participated]}.sum
-          min_participated = level_results.values.map{|h| h[:participated]}.min
 
+          # min_participated = level_results.values.map{|h| h[:participated]}.min
           # beta_1 = a[:participated]/min_participated.to_f
           # beta_2 = b[:participated]/min_participated.to_f
           # beta_3 = c[:participated]/min_participated.to_f
@@ -288,13 +288,15 @@ module FieldTest
           limit_weight_2 = weights[(i + 1) % variants.size]
           limit_weight_3 = weights[(i + 2) % variants.size]
 
-          alpha_1 = a[:average_participant_value]
-          alpha_2 = b[:average_participant_value]
-          alpha_3 = c[:average_participant_value]
+          # unless total_participated.to_f > 10
+          #   alpha_1 = a[:average_participant_value]
+          #   alpha_2 = b[:average_participant_value]
+          #   alpha_3 = c[:average_participant_value]
+          # end
 
-          # alpha_1 = a[:total_revenue]
-          # alpha_2 = b[:total_revenue]
-          # alpha_3 = c[:total_revenue]
+          a[:participated] > 10 ? alpha_1 = a[:average_participant_value] : alpha_1 = nil
+          b[:participated] > 10 ? alpha_2 = b[:average_participant_value] : alpha_2 = nil
+          c[:participated] > 10 ? alpha_3 = c[:average_participant_value] : alpha_3 = nil
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
