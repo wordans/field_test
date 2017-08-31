@@ -288,13 +288,13 @@ module FieldTest
           limit_weight_2 = weights[(i + 1) % variants.size]
           limit_weight_3 = weights[(i + 2) % variants.size]
 
-          # alpha_1 = a[:average_participant_value]
-          # alpha_2 = b[:average_participant_value]
-          # alpha_3 = c[:average_participant_value]
+          alpha_1 = a[:average_participant_value]
+          alpha_2 = b[:average_participant_value]
+          alpha_3 = c[:average_participant_value]
 
-          alpha_1 = a[:total_revenue]
-          alpha_2 = b[:total_revenue]
-          alpha_3 = c[:total_revenue]
+          # alpha_1 = a[:total_revenue]
+          # alpha_2 = b[:total_revenue]
+          # alpha_3 = c[:total_revenue]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
