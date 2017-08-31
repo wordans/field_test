@@ -271,7 +271,6 @@ module FieldTest
           beta_1 = a[:participated]/min_participated.to_f
           beta_2 = b[:participated]/min_participated.to_f
           beta_3 = c[:participated]/min_participated.to_f
-          binding.pry
 
           weight_1 =  a[:participated]/total_participated.to_f
           weight_2 =  b[:participated]/total_participated.to_f
@@ -292,15 +291,12 @@ module FieldTest
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
             if (alpha_1.blank? || alpha_2.blank? || alpha_3.blank?) || (alpha_1 == 0 || alpha_2 == 0 || alpha_3 == 0)
-              binding.pry
               nil
             elsif variants.size == 2
-              binding.pry
               cache_fetch ["field_test", "level_prob_1_beats_2", alpha_1, beta_1, alpha_2, beta_2] do
                 Calculations.level_prob_1_beats_2(alpha_1, beta_1, alpha_2, beta_2)
               end
             else
-              binding.pry
               cache_fetch ["field_test", "level_prob_1_beats_2_and_3", alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3] do
                 Calculations.level_prob_1_beats_2_and_3(alpha_1, beta_1, alpha_2, beta_2, alpha_3, beta_3)
               end

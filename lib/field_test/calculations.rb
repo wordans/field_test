@@ -83,29 +83,17 @@ module FieldTest
       log_beta_1 = Math.log(beta_1)
       alpha_1_times_log_beta_1 = alpha_1 * log_beta_1
       log_beta_1_plus_beta_2_plus_beta_3 = Math.log(beta_1 + beta_2 + beta_3)
-      lgamma_alpha_1 = Math.log(Math.gamma(alpha_1))
-
-      binding.pry
-
+      lgamma_alpha_1 = Math.lgamma(alpha_1).reduce(:*)
       0.upto(alpha_2 - 1) do |i|
         alpha_1_plus_i = alpha_1 + i
-        lgamma_of_i_plus_1 = Math.log(Math.gamma(i + 1))
+        lgamma_of_i_plus_1 = Math.lgamma(i + 1).reduce(:*)
         i_times_log_beta_2 = i * log_beta_2
-
-        binding.pry
-
         0.upto(alpha_3 - 1) do |j|
-          total += Math.exp(alpha_1_times_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.log(Math.gamma(j + alpha_1_plus_i)) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
-          binding.pry
-
+          total += Math.exp(alpha_1_times_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.lgamma(j + alpha_1_plus_i).reduce(:*) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
         end
       end
-
       1 - level_prob_1_beats_2(alpha_2, beta_2, alpha_1, beta_1) -
         level_prob_1_beats_2(alpha_3, beta_3, alpha_1, beta_1) + total
-
-      binding.pry
-
     end
   end
 end
