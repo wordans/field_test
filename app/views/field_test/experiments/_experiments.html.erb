@@ -27,7 +27,6 @@
           <th style="width: 10%;">Average Conversion Value</th>
           <th style="width: 10%;">Average Participant Value</th>
           <th style="width: 10%;">Total Revenue</th>
-          <th style="width: 10%;">Prob Winning Total Revenue</th>
         </tr>
       </thead>
       <tbody>
@@ -79,13 +78,6 @@
             <td>
               <% if level_result_number[:average_participant_value] %>
                 <%= level_result_number[:average_participant_value].round(2) %>
-              <% else %>
-                -
-              <% end %>
-            </td>
-            <td>
-              <% if level_result_number[:total_revenue] %>
-                <%= level_result_number[:total_revenue].round(2) %>
               <% else %>
                 -
               <% end %>
