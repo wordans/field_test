@@ -287,9 +287,9 @@ module FieldTest
           # alpha_2 = b[:average_participant_value]
           # alpha_3 = c[:average_participant_value]
 
-          alpha_1 = a[:total_revenue] + 1
-          alpha_2 = b[:total_revenue] + 1
-          alpha_3 = c[:total_revenue] + 1
+          alpha_1 = a[:total_revenue]
+          alpha_2 = b[:total_revenue]
+          alpha_3 = c[:total_revenue]
 
           # TODO calculate this incrementally by caching intermediate results
           prob_winning =
