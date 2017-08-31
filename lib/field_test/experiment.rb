@@ -267,9 +267,10 @@ module FieldTest
           # c_weight = weights[(i + 2) % variants.size]/(weights.sum-weights[i]).to_f
 
           total_participated = level_results.values.map{|h| h[:participated]}.sum
-          beta_1 = a[:participated]/(total_participated - a[:participated]).to_f
-          beta_2 = b[:participated]/(total_participated - a[:participated]).to_f
-          beta_3 = c[:participated]/(total_participated - a[:participated]).to_f
+          min_participated = level_results.values.map{|h| h[:participated]}.min
+          beta_1 = a[:participated]/(total_participated - min_participated).to_f
+          beta_2 = b[:participated]/(total_participated - min_participated).to_f
+          beta_3 = c[:participated]/(total_participated - min_participated).to_f
           binding.pry
 
           weight_1 =  a[:participated]/total_participated.to_f
