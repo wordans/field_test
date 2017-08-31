@@ -65,12 +65,10 @@ module FieldTest
       log_beta_2 = Math.log(beta_2)
       log_beta_1_plus_beta_2 = Math.log(beta_1 + beta_2)
       alpha_2_times_log_beta_2 = alpha_2 * log_beta_2
-
       0.upto(alpha_1 - 1) do |i|
         # Possible problem here
         total += Math.exp(i * log_beta_1 + alpha_2_times_log_beta_2 - (i + alpha_2) * log_beta_1_plus_beta_2 - Math.log(i + alpha_2) - Math.logbeta(i + 1, alpha_2))
       end
-
       total
     end
 
@@ -92,6 +90,7 @@ module FieldTest
           total += Math.exp(alpha_1_times_log_beta_1 + i_times_log_beta_2 + j * log_beta_3 - (j + alpha_1_plus_i) * log_beta_1_plus_beta_2_plus_beta_3 + Math.lgamma(j + alpha_1_plus_i).reduce(:*) - lgamma_of_i_plus_1 - Math.log(Math.gamma(j + 1)) - lgamma_alpha_1)
         end
       end
+      binding.pry
       1 - level_prob_1_beats_2(alpha_2, beta_2, alpha_1, beta_1) -
         level_prob_1_beats_2(alpha_3, beta_3, alpha_1, beta_1) + total
     end

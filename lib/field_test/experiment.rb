@@ -189,6 +189,7 @@ module FieldTest
       else
         data = relation.group(:converted).count
         value_data = relation.group(:converted).average(:value)
+        revenue_data = relation.group(:converted).sum(:value)
       end
 
       level_results = {}
@@ -196,13 +197,15 @@ module FieldTest
         converted = data[[variant, true]].to_i
         participated = converted + data[[variant, false]].to_i
 
+        revenue = revenue_data[[variant, true]].to_i
+
         participated > 0 ? conversion_rate = converted.to_f / participated : conversion_rate = nil
 
         (converted > 0 && !value_data[[variant, true]].nil?) ? average_conversion_value = value_data[[variant, true]].to_f : average_conversion_value = nil
 
         (participated > 0 && !average_conversion_value.nil?) ? average_participant_value = conversion_rate * average_conversion_value : average_participant_value = nil
 
-        (!average_conversion_value.nil? && !converted.nil?) ? total_revenue = average_conversion_value * converted : total_revenue = nil
+        # (!average_conversion_value.nil? && !converted.nil?) ? total_revenue = average_conversion_value * converted : total_revenue = nil
 
         level_results[variant] = {
           participated: participated,
@@ -210,7 +213,7 @@ module FieldTest
           conversion_rate: conversion_rate,
           average_conversion_value: average_conversion_value,
           average_participant_value: average_participant_value,
-          total_revenue: total_revenue
+          total_revenue: revenue
         }
 
       end
