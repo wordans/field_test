@@ -17,6 +17,7 @@ module FieldTest
     @config = nil if Rails.env.development?
 
     @config ||= YAML.load(ERB.new(File.read("config/field_test.yml")).result)
+    # call from db
   end
 
   def self.exclude_bots?
